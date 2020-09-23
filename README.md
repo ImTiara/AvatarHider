@@ -6,4 +6,4 @@ There's no real reason to render avatars that you don't even pay attention to, r
 
 For the best experience, it is recommended to run this mod with UIExpansionKit.
 "Hide Distance" is customizable and can be changed in meters (default is 7 meters).
-Friend's avatars are ignored by default, but can be turned off if needed.
+Friend's avatars are ignored by default, but can be hidden by distance too if needed.
