@@ -43,7 +43,7 @@ namespace AvatarHider
             {
                 if (m_HideAvatars && GetLocalVRCPlayer() != null)
                 {
-                    foreach (VRC.Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
+                    foreach (VRC.Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_2())
                     {
                         try
                         {
@@ -93,7 +93,7 @@ namespace AvatarHider
         {
             try
             {
-                foreach (VRC.Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
+                foreach (VRC.Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_2())
                 {
                     if (player == null || IsMe(player)) continue;
 
@@ -110,7 +110,7 @@ namespace AvatarHider
         }
 
         private VRCPlayer GetLocalVRCPlayer() => VRCPlayer.field_Internal_Static_VRCPlayer_0;
-        private GameObject GetAvatarObject(VRC.Player p) => p.prop_VRCAvatarManager_0.prop_GameObject_0;
+        private GameObject GetAvatarObject(VRC.Player p) => p.prop_VRCPlayer_0.prop_VRCAvatarManager_0.prop_GameObject_0;
         private bool IsMe(VRC.Player p) => p.name == GetLocalVRCPlayer().name;
         private bool IsFriendsWith(string id) => APIUser.CurrentUser.friendIDs.Contains(id);
     }
