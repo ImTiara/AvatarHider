@@ -43,7 +43,7 @@ namespace AvatarHider
             {
                 if (m_HideAvatars && GetLocalVRCPlayer() != null)
                 {
-                    foreach (VRC.Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_2())
+                    foreach (VRC.Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
                     {
                         try
                         {
@@ -93,7 +93,7 @@ namespace AvatarHider
         {
             try
             {
-                foreach (VRC.Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_2())
+                foreach (VRC.Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
                 {
                     if (player == null || IsMe(player)) continue;
 
