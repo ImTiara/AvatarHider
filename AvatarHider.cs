@@ -45,24 +45,24 @@ namespace AvatarHider
         {
             while (true)
             {
-                if (m_HideAvatars && GetLocalVRCPlayer() != null)
+                if (m_HideAvatars && Manager.GetLocalVRCPlayer() != null)
                 {
-                    foreach (VRC.Player player in GetAllPlayers())
+                    foreach (VRC.Player player in Manager.GetAllPlayers())
                     {
                         try
                         {
-                            if (player == null || IsMe(player))
+                            if (player == null || player.IsMe())
                                 continue;
 
                             APIUser apiUser = player.prop_APIUser_0;
-                            if (apiUser == null || (m_IgnoreFriends && IsFriendsWith(apiUser.id)) || (m_ExcludeShownAvatars && IsShowingAvatar(apiUser.id)))
+                            if (apiUser == null || (m_IgnoreFriends && apiUser.isFriend) || (m_ExcludeShownAvatars && apiUser.IsShowingAvatar()))
                                 continue;
 
-                            GameObject avtrObject = GetAvatarObject(player);
+                            GameObject avtrObject = player.GetAvatarObject();
                             if (avtrObject == null)
                                 continue;
 
-                            float dist = Vector3.Distance(GetLocalVRCPlayer().transform.position, avtrObject.transform.position);
+                            float dist = Vector3.Distance(Manager.GetLocalVRCPlayer().transform.position, avtrObject.transform.position);
                             bool isActive = avtrObject.active;
 
                             if (m_HideAvatars && isActive && dist > m_Distance)
@@ -76,7 +76,7 @@ namespace AvatarHider
                         {
                             MelonLogger.Log(ConsoleColor.Red, $"Failed to scan avatar: {e}");
                         }
-                        yield return new WaitForSeconds(0.02f);
+                        yield return new WaitForSeconds(.2f);
                     }
                 }
                 yield return new WaitForEndOfFrame();
@@ -97,12 +97,12 @@ namespace AvatarHider
         {
             try
             {
-                foreach (VRC.Player player in GetAllPlayers())
+                foreach (VRC.Player player in Manager.GetAllPlayers())
                 {
-                    if (player == null || IsMe(player))
+                    if (player == null || player.IsMe())
                         continue;
 
-                    GameObject avtrObject = GetAvatarObject(player);
+                    GameObject avtrObject = player.GetAvatarObject();
                     if (avtrObject == null || avtrObject.active)
                         continue;
 
@@ -114,22 +114,5 @@ namespace AvatarHider
                 MelonLogger.Log(ConsoleColor.Red, $"Failed to unhide avatar: {e}");
             }
         }
-
-        private bool IsShowingAvatar(string targetUserId)
-        {
-            foreach (var playerModeration in GetModerationManager().field_Private_List_1_ApiPlayerModeration_0)
-                if (playerModeration.moderationType == ApiPlayerModeration.ModerationType.ShowAvatar && playerModeration.targetUserId == targetUserId)
-                    return true;
-
-            return false;
-        }
-
-        private ObjectPublicObLi1ApSiLi1ApBoSiUnique GetModerationManager() => ObjectPublicObLi1ApSiLi1ApBoSiUnique.prop_ObjectPublicObLi1ApSiLi1ApBoSiUnique_0;
-        private VRCPlayer GetLocalVRCPlayer() => VRCPlayer.field_Internal_Static_VRCPlayer_0;
-        private GameObject GetAvatarObject(VRC.Player p) => p.prop_VRCPlayer_0.prop_VRCAvatarManager_0.prop_GameObject_0;
-        private Il2CppReferenceArray<VRC.Player> GetAllPlayers() => PlayerManager.Method_Public_Static_ArrayOf_Player_0();
-
-        private bool IsMe(VRC.Player p) => p.name == GetLocalVRCPlayer().name;
-        private bool IsFriendsWith(string id) => APIUser.CurrentUser.friendIDs.Contains(id);
     }
 }
