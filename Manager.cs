@@ -34,6 +34,8 @@ namespace AvatarHider
 
         public static bool IsMe(this Player p) => p.name == GetLocalVRCPlayer().name;
 
+        public static bool IsFriendsWith(this APIUser apiUser) => APIUser.CurrentUser.friendIDs.Contains(apiUser.id);
+
         public static ObjectPublicObLi1ApSiLi1ApBoSiUnique GetModerationManager() => ObjectPublicObLi1ApSiLi1ApBoSiUnique.prop_ObjectPublicObLi1ApSiLi1ApBoSiUnique_0;
 
         public static PlayerManager GetPlayerManager() => PlayerManager.prop_PlayerManager_0;

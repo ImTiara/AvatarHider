@@ -55,7 +55,7 @@ namespace AvatarHider
                                 continue;
 
                             APIUser apiUser = player.prop_APIUser_0;
-                            if (apiUser == null || (m_IgnoreFriends && apiUser.isFriend) || (m_ExcludeShownAvatars && apiUser.IsShowingAvatar()))
+                            if (apiUser == null || (m_IgnoreFriends && apiUser.IsFriendsWith()) || (m_ExcludeShownAvatars && apiUser.IsShowingAvatar()))
                                 continue;
 
                             GameObject avtrObject = player.GetAvatarObject();
