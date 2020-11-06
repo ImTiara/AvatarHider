@@ -1,9 +1,7 @@
 ﻿using MelonLoader;
 using System;
 using System.Collections;
-using UnhollowerBaseLib;
 using UnityEngine;
-using VRC;
 using VRC.Core;
 
 namespace AvatarHider
@@ -24,6 +22,7 @@ namespace AvatarHider
         private bool m_HideAvatars;
         private bool m_IgnoreFriends;
         private bool m_ExcludeShownAvatars;
+        private bool m_DisableSpawnSound;
 
         private float m_Distance;
 
@@ -34,6 +33,7 @@ namespace AvatarHider
             MelonPrefs.RegisterBool("AvatarHider", "HideAvatars", false, "Hide Avatars");
             MelonPrefs.RegisterBool("AvatarHider", "IgnoreFriends", true, "Ignore Friends");
             MelonPrefs.RegisterBool("AvatarHider", "ExcludeShownAvatars", true, "Exclude Shown Avatars");
+            MelonPrefs.RegisterBool("AvatarHider", "DisableSpawnSound", false, "Disable Spawn Sounds");
             MelonPrefs.RegisterFloat("AvatarHider", "HideDistance", 7f, "Distance (meters)");
 
             OnModSettingsApplied();
@@ -71,6 +71,10 @@ namespace AvatarHider
                                 avtrObject.SetActive(true);
                             else if (!m_HideAvatars && !isActive)
                                 avtrObject.SetActive(true);
+
+                            if (m_DisableSpawnSound)
+                                avtrObject.StopSpawnSounds();
+
                         }
                         catch (Exception e)
                         {
@@ -88,6 +92,7 @@ namespace AvatarHider
             m_HideAvatars = MelonPrefs.GetBool("AvatarHider", "HideAvatars");
             m_IgnoreFriends = MelonPrefs.GetBool("AvatarHider", "IgnoreFriends");
             m_ExcludeShownAvatars = MelonPrefs.GetBool("AvatarHider", "ExcludeShownAvatars");
+            m_DisableSpawnSound = MelonPrefs.GetBool("AvatarHider", "DisableSpawnSound");
             m_Distance = MelonPrefs.GetFloat("AvatarHider", "HideDistance");
 
             UnHideAvatars();

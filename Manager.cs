@@ -1,4 +1,5 @@
 ﻿using Il2CppSystem.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VRC;
 using VRC.Core;
@@ -7,6 +8,12 @@ namespace AvatarHider
 {
     public static class Manager
     {
+
+        public static void StopSpawnSounds(this GameObject avtrObject)
+        {
+            foreach (var audioSource in avtrObject.GetComponentsInChildren<AudioSource>().Where(audioSource => audioSource.isPlaying))
+                audioSource.Stop();
+        }
 
         public static VRCPlayer GetLocalVRCPlayer() => VRCPlayer.field_Internal_Static_VRCPlayer_0;
 
