@@ -1,6 +1,7 @@
 ﻿using MelonLoader;
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using VRC.Core;
 
@@ -47,17 +48,11 @@ namespace AvatarHider
             {
                 if (m_HideAvatars && Manager.GetLocalVRCPlayer() != null)
                 {
-                    foreach (VRC.Player player in Manager.GetAllPlayers())
+                    foreach (VRC.Player player in Manager.GetAllPlayers().Where(p => p != null && !p.IsMe() && p.prop_APIUser_0 != null && !(m_IgnoreFriends && p.prop_APIUser_0.IsFriendsWith()) && !(m_ExcludeShownAvatars && p.prop_APIUser_0.IsShowingAvatar())))
                     {
                         try
                         {
-                            if (player == null || player.IsMe())
-                                continue;
-
                             APIUser apiUser = player.prop_APIUser_0;
-                            if (apiUser == null || (m_IgnoreFriends && apiUser.IsFriendsWith()) || (m_ExcludeShownAvatars && apiUser.IsShowingAvatar()))
-                                continue;
-
                             GameObject avtrObject = player.GetAvatarObject();
                             if (avtrObject == null)
                                 continue;
@@ -80,10 +75,10 @@ namespace AvatarHider
                         {
                             MelonLogger.Log(ConsoleColor.Red, $"Failed to scan avatar: {e}");
                         }
-                        yield return new WaitForSeconds(.2f);
+                        yield return new WaitForSeconds(.19f);
                     }
                 }
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForSeconds(.5f);
             }
         }
 

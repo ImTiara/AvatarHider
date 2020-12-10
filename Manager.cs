@@ -28,16 +28,7 @@ namespace AvatarHider
             return false;
         }
 
-        public static Player[] GetAllPlayers()
-        {
-            List<Player> list = GetPlayerManager()?.field_Private_List_1_Player_0;
-
-            if (list == null)
-                return new Player[0];
-
-            lock (list)
-                return list.ToArray();
-        }
+        public static System.Collections.Generic.List<Player> GetAllPlayers() => GetPlayerManager()?.prop_ArrayOf_Player_0.ToList();
 
         public static bool IsMe(this Player p) => p.name == GetLocalVRCPlayer().name;
 
