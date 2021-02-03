@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using VRC;
 using VRC.Core;
+using VRC.Management;
 
 namespace AvatarHider
 {
@@ -34,7 +35,7 @@ namespace AvatarHider
 
         public static bool IsFriendsWith(this APIUser apiUser) => APIUser.CurrentUser.friendIDs.Contains(apiUser.id);
 
-        public static ObjectPublicObLi1ApSiLi1ApBoSiUnique GetModerationManager() => ObjectPublicObLi1ApSiLi1ApBoSiUnique.prop_ObjectPublicObLi1ApSiLi1ApBoSiUnique_0;
+        public static ModerationManager GetModerationManager() => ModerationManager.prop_ModerationManager_0;
 
         public static PlayerManager GetPlayerManager() => PlayerManager.prop_PlayerManager_0;
 

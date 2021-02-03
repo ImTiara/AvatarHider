@@ -13,7 +13,7 @@ namespace AvatarHider
         public const string Name = "AvatarHider";
         public const string Author = "ImTiara";
         public const string Company = null;
-        public const string Version = "1.1.0";
+        public const string Version = "1.1.1";
         public const string DownloadLink = "https://github.com/ImTiara/AvatarHider/releases";
     }
 
@@ -29,15 +29,14 @@ namespace AvatarHider
 
         public override void OnApplicationStart()
         {
-            MelonPrefs.RegisterCategory("AvatarHider", "Avatar Hider");
+            MelonPreferences.CreateCategory("AvatarHider", "Avatar Hider");
+            MelonPreferences.CreateEntry("AvatarHider", "HideAvatars", false, "Hide Avatars");
+            MelonPreferences.CreateEntry("AvatarHider", "IgnoreFriends", true, "Ignore Friends");
+            MelonPreferences.CreateEntry("AvatarHider", "ExcludeShownAvatars", true, "Exclude Shown Avatars");
+            MelonPreferences.CreateEntry("AvatarHider", "DisableSpawnSound", false, "Disable Spawn Sounds");
+            MelonPreferences.CreateEntry("AvatarHider", "HideDistance", 7.0f, "Distance (meters)");
 
-            MelonPrefs.RegisterBool("AvatarHider", "HideAvatars", false, "Hide Avatars");
-            MelonPrefs.RegisterBool("AvatarHider", "IgnoreFriends", true, "Ignore Friends");
-            MelonPrefs.RegisterBool("AvatarHider", "ExcludeShownAvatars", true, "Exclude Shown Avatars");
-            MelonPrefs.RegisterBool("AvatarHider", "DisableSpawnSound", false, "Disable Spawn Sounds");
-            MelonPrefs.RegisterFloat("AvatarHider", "HideDistance", 7f, "Distance (meters)");
-
-            OnModSettingsApplied();
+            OnPreferencesSaved();
 
             MelonCoroutines.Start(AvatarScanner());
         }
@@ -73,7 +72,7 @@ namespace AvatarHider
                         }
                         catch (Exception e)
                         {
-                            MelonLogger.Log(ConsoleColor.Red, $"Failed to scan avatar: {e}");
+                            MelonLogger.Msg(ConsoleColor.Red, $"Failed to scan avatar: {e}");
                         }
                         yield return new WaitForSeconds(.19f);
                     }
@@ -82,13 +81,13 @@ namespace AvatarHider
             }
         }
 
-        public override void OnModSettingsApplied()
+        public override void OnPreferencesSaved()
         {
-            m_HideAvatars = MelonPrefs.GetBool("AvatarHider", "HideAvatars");
-            m_IgnoreFriends = MelonPrefs.GetBool("AvatarHider", "IgnoreFriends");
-            m_ExcludeShownAvatars = MelonPrefs.GetBool("AvatarHider", "ExcludeShownAvatars");
-            m_DisableSpawnSound = MelonPrefs.GetBool("AvatarHider", "DisableSpawnSound");
-            m_Distance = MelonPrefs.GetFloat("AvatarHider", "HideDistance");
+            m_HideAvatars = MelonPreferences.GetEntryValue<bool>("AvatarHider", "HideAvatars");
+            m_IgnoreFriends = MelonPreferences.GetEntryValue<bool>("AvatarHider", "IgnoreFriends");
+            m_ExcludeShownAvatars = MelonPreferences.GetEntryValue<bool>("AvatarHider", "ExcludeShownAvatars");
+            m_DisableSpawnSound = MelonPreferences.GetEntryValue<bool>("AvatarHider", "DisableSpawnSound");
+            m_Distance = MelonPreferences.GetEntryValue<float>("AvatarHider", "HideDistance");
 
             UnHideAvatars();
         }
@@ -111,7 +110,7 @@ namespace AvatarHider
             }
             catch (Exception e)
             {
-                MelonLogger.Log(ConsoleColor.Red, $"Failed to unhide avatar: {e}");
+                MelonLogger.Msg(ConsoleColor.Red, $"Failed to unhide avatar: {e}");
             }
         }
     }
